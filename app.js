@@ -6,18 +6,15 @@
 //append results to the DOM
 $("#search-form").on("submit", handleClick)
 
-function handleClick (evt) {
+async function handleClick (evt) {
   evt.preventDefault();
   const searchText = $("#search-input");
-  getGif(searchText);
-
-  console.log("getGif =", getGif);
+  const gif = await getGif(searchText);
 }
 
 async function getGif(searchText) {
-  const gifResponse = axios.post("http://api.giphy.com/v1/gifs/search?q=hilarious&api_key=MhAodEJIJxQMxW9XqxKjyXfNYdLoOIym", {searchText});
-  let response = await gifResponse
-  console.log("await response= ", response);
+  const gifResponse = await axios.get("http://api.giphy.com/v1/gifs/search", {params: {q: searchText, api_key: "MhAodEJIJxQMxW9XqxKjyXfNYdLoOIym"}});
+  return gifResponse;
 }
 
 //make ajax post request
